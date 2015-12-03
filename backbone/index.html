@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO-Backbone</title>
+    <link rel="stylesheet" href="node_modules/todomvc-app-css/index.css">
+</head>
+<body>
+    <div>
+        <section class="todoapp">
+            <header class="header">
+                <h1>todos</h1>
+                <input id="new-todo" class="new-todo" autofocus autocomplete="off" placeholder="What needs to be done?">
+            </header>
+            <section class="main">
+                <input class="toggle-all" type="checkbox">
+                <ul class="todo-list">
+                    
+                </ul>
+            </section>
+        </section>
+        <footer class="info">
+            <p>Double-click to edit a todo</p>
+            <p>Written by <a href="http://evanyou.me">Evan You</a></p>
+            <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+        </footer>
+    </div>
+    <script type="text/template" id="todo">
+        <div class="view">
+            <input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %>>
+            <label><%= title %></label>
+            <button class="destroy"></button>
+        </div>
+        <input class="edit" type="text" value="<%= title %>">
+    </script>
+
+    <script type="text/template" id="footer">
+        <footer class="footer">
+            <span class="todo-count">
+                <strong> <%= left %> </strong> left
+            </span>
+            <ul class="filters">
+                <li><a href="#/all" class="selected">All</a></li>
+                <li><a href="#/active">Active</a></li>
+                <li><a href="#/completed">Completed</a></li>
+            </ul>
+            <% if(completed > 0) { %>
+            <button class="clear-completed">
+                Clear completed
+            </button>
+            <%  } %>
+        </footer>
+    </script>
+
+    <script src="./dist/vendor.js"></script>
+    <script src="./dist/build.js"></script>
+</body>
+</html>

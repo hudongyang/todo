@@ -1,0 +1,28 @@
+{
+  "name": "backbone-todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.2.1",
+    "babel-loader": "^6.2.0",
+    "babel-plugin-transform-runtime": "^6.1.18",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-runtime": "^6.2.0",
+    "css-loader": "^0.21.0",
+    "director": "^1.2.8",
+    "backbone": "^1.2.3",
+    "backbone.localstorage": "^1.1.16",
+    "jquery": "^2.1.4",
+    "underscore": "^1.8.3",
+    "style-loader": "^0.13.0",
+    "todomvc-app-css": "^2.0.3",
+    "todomvc-common": "^1.0.2",
+    "webpack": "^1.12.6"
+  }
+}
