@@ -1,0 +1,19 @@
+{
+  "name": "backbone-requirejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "backbone": "^1.2.3",
+    "backbone.localstorage": "^1.1.16",
+    "jquery": "^2.1.4",
+    "requirejs": "^2.1.22",
+    "todomvc-app-css": "^2.0.3",
+    "underscore": "^1.8.3"
+  }
+}

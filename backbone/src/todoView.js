@@ -23,11 +23,7 @@ module.exports = Backbone.View.extend({
             this.template(this.model.toJSON())
         );
 
-        if(this.model.get('completed')) {
-            this.$el.addClass('completed');
-        } else {
-            this.$el.removeClass('completed');
-        }
+        this.$el.toggleClass('completed', this.model.get('completed'));
 
         return this;
     },

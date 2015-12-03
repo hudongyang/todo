@@ -3954,11 +3954,7 @@ webpackJsonp([0],[
 	    render: function render() {
 	        this.$el.html(this.template(this.model.toJSON()));
 	
-	        if (this.model.get('completed')) {
-	            this.$el.addClass('completed');
-	        } else {
-	            this.$el.removeClass('completed');
-	        }
+	        this.$el.toggleClass('completed', this.model.get('completed'));
 	
 	        return this;
 	    },
