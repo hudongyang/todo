@@ -1,97 +1,54 @@
 <template>
-  <div class="container" @click="clickHandle('test click', $event)">
-
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
-      </div>
+    <div>
+        <section class="todoapp">
+            <comp-head></comp-head>
+            <comp-todos :left="left"></comp-todos> 
+            <comp-foot :left="left"></comp-foot>
+        </section>
+        <footer class="info">
+            <p>Double-click to edit a todo</p>
+            <p>Written by <a href="http://evanyou.me">Evan You</a></p>
+            <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+        </footer>
     </div>
-
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
-    </div>
-      
-    <form class="form-container">
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
-
-  </div>
 </template>
 
 <script>
-import card from '@/components/card'
+    /*let [CompHead, CompFoot, CompTodos] = [
+        require('./header.vue'),
+        require('./footer.vue'),
+        require('./todos.vue')
+    ];*/
 
-export default {
-  data () {
-    return {
-      motto: 'Hello World',
-      userInfo: {}
-    }
-  },
+    import store from './store'
+    import CompHead from '@/components/header'
+    import CompTodos from '@/components/todos'
 
-  components: {
-    card
-  },
-
-  methods: {
-    bindViewTap () {
-      const url = '../logs/logs'
-      wx.navigateTo({ url })
-    },
-    getUserInfo () {
-      // 调用登录接口
-      wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
+    export default {
+        store,
+        components: {
+            CompHead, 
+            // CompFoot,
+            CompTodos
+        },
+        computed: {
+            left() {
+                return this.todos.filter(item => !item.completed).length;
             }
-          })
+        },
+        data: function() {
+            return {
+                todos: [],
+                picked: ''
+            }
+        },
+        events: {
+            todos(todos) {
+                this.todos = todos;
+                return true;
+            }
         }
-      })
-    },
-    clickHandle (msg, ev) {
-      console.log('clickHandle:', msg, ev)
-    }
-  },
-
-  created () {
-    // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
-  }
-}
+    };
 </script>
 
-<style scoped>
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.userinfo-nickname {
-  color: #aaa;
-}
-
-.usermotto {
-  margin-top: 150px;
-}
-
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-</style>
+<style src="todomvc-app-css/index.css"></style>
