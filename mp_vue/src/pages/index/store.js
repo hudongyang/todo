@@ -4,14 +4,13 @@ import createLogger from 'vuex/dist/logger'
 
 Vue.use(Vuex)
 
+const Todos = new wx.BaaS.TableObject(28680)
+
 const store = new Vuex.Store({
 	plugins: [createLogger()],
 	state: {
-		todos: [{
-			id: 0,
-			title: '111',
-			completed: true
-		}]
+		todos: [],
+		user: null
 	},
 	mutations: {
 		add(state, todo) {
@@ -32,6 +31,12 @@ const store = new Vuex.Store({
 		},
 		remove(state, removeTodo) {
 			state.todos = state.todos.filter(todo => todo != removeTodo)
+		},
+		user(state, user) {
+			state.user = user
+		},
+		init(state, todos) {
+			state.todos = todos
 		}
 	},
     getters: {
@@ -40,8 +45,36 @@ const store = new Vuex.Store({
         },
         left(state) {
             return state.todos.filter(todo => !todo.completed).length
-        }
-    },
+		},
+		user(state) {
+			return state.user
+		}
+	},
+	actions: {
+		async add({commit}, title) {
+			const todo = Todos.create()
+			todo.set({
+				title
+			})
+			
+			let resp = await todo.save()
+
+			commit('add', resp.data)
+		},
+		async init({commit, state}) {
+			let query = new wx.BaaS.Query()
+			query.compare('created_by', '=', state.user.id)
+	
+			let resp = await Todos.setQuery(query).find()
+			
+			commit('init', resp.data.objects)
+		},
+		async remove({commit}, delTodo) {
+			await Todos.delete(delTodo.id)
+			commit('remove', delTodo)
+		}
+	},
+	
 })
 
 export default store

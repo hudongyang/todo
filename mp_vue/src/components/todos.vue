@@ -6,13 +6,14 @@
         
         <ul class="todo-list">
             <checkbox-group @change="checkboxChange">
-                <li class="todo" v-for="todo in filterTodos" :key="$index">
+                <li class="todo" v-for="todo in filterTodos" :key="$index" :class="{completed:todo.completed}">
                     <div class="view">
                         <input type="checkbox" class="checkbox_btn" :value="todo.id" :checked="todo.completed" />
-                        <label v-on:dblclick="editTodo(todo)">{{ todo.title }}</label>
+                        <label>{{ todo.title }}</label>
+                        <!-- <button class="to-edit" @click="editTodo(todo)">编辑</button> -->
                         <button class="destroy" @click="destroy(todo)"></button>
                     </div>
-                    <input class="edit" type="text" v-model="todo.title" v-on:blur="doneEdit(todo)" v-on:keyup.enter="doneEdit(todo)" v-on:keyup.esc="cancelEdit(todo)">
+                    <!-- <input class="edit" type="text" v-model="todo.title" v-on:blur="doneEdit(todo)" v-on:keyup.enter="doneEdit(todo)" v-on:keyup.esc="cancelEdit(todo)"> -->
                 </li>
             </checkbox-group>
         </ul>
@@ -34,6 +35,21 @@
         position: absolute;
         top: -80rpx;
         left: 40rpx;
+    }
+
+    .destroy {
+        display: block!important;
+    }
+
+    .to-edit {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 120rpx;
+        font-size: 30rpx;
+        width: 80rpx;
+        height: 80rpx;
+        margin: auto 0;
     }
 </style>
 
@@ -61,7 +77,7 @@
         },
         methods: {
             destroy(todo) {
-                this.$store.commit('remove', todo)
+                this.$store.dispatch('remove', todo)
             },
             editTodo(todo) {
                 this.editingTodo = todo;
@@ -94,6 +110,9 @@
                 let todos = this.todos.filter(this.filters[this.activeFilter]);
                 return todos;
             }
+        },
+        created() {
+            this.editingTodo = this.todos[0]
         }
     };
 </script>

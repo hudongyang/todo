@@ -2,34 +2,24 @@
     <div>
         <section class="todoapp">
             <comp-head></comp-head>
-            <comp-todos :left="left"></comp-todos> 
-            <comp-foot :left="left"></comp-foot>
+            <comp-todos></comp-todos> 
+            <comp-foot></comp-foot>
         </section>
-        <footer class="info">
-            <p>Double-click to edit a todo</p>
-            <p>Written by <a href="http://evanyou.me">Evan You</a></p>
-            <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
-        </footer>
     </div>
 </template>
 
 <script>
-    /*let [CompHead, CompFoot, CompTodos] = [
-        require('./header.vue'),
-        require('./footer.vue'),
-        require('./todos.vue')
-    ];*/
-
     import store from './store'
     import CompHead from '@/components/header'
     import CompTodos from '@/components/todos'
+    import CompFoot from '@/components/footer'
 
     export default {
         store,
         components: {
             CompHead, 
-            // CompFoot,
-            CompTodos
+            CompTodos,
+            CompFoot
         },
         computed: {
             left() {
@@ -47,6 +37,15 @@
                 this.todos = todos;
                 return true;
             }
+        },
+        async mounted() {
+            const user = await wx.BaaS.login()
+
+            const User = new wx.BaaS.User()
+            const resp = await User.get(user.id)
+            this.$store.commit('user', resp.data)
+
+            this.$store.dispatch('init')
         }
     };
 </script>
